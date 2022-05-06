@@ -9,7 +9,7 @@ from jina import Document, DocumentArray, Executor
 from executor import PostgreSQLReader
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
-compose_yml = os.path.abspath(os.path.join(cur_dir, '..', 'docker-compose.yml'))
+compose_yml = os.path.abspath(os.path.join(cur_dir, 'docker-compose.yml'))
 
 
 d_embedding = np.array([1, 1, 1, 1, 1, 1, 1], dtype=np.float32)
@@ -65,7 +65,7 @@ def docker_compose(request):
 
 def test_config():
     ex = Executor.load_config(
-        str(Path(__file__).parents[1] / 'config.yml'), override_with={'dry_run': True}
+        str(Path(__file__).parents[1] / 'config.yml'), uses_with={'dry_run': True}
     )
     assert ex.username == 'postgres'
 
@@ -74,7 +74,7 @@ def test_config():
 def test_postgres(tmpdir, docker_compose):
     reader = PostgreSQLReader()
 
-    emb = np.random.random(10, dtype=np.float32)
+    emb = np.random.random(10).astype(np.float32)
 
     doc = Document(embedding=emb)
     da = DocumentArray([doc])
@@ -84,7 +84,7 @@ def test_postgres(tmpdir, docker_compose):
     reader.add(da, parameters={})
     reader.search(query1, parameters={})
 
-    assert query1[0].embedding == emb
+    np.testing.assert_array_equal(query1[0].embedding, emb)
 
     query2 = DocumentArray([Document(id=doc.id)])
     reader.search(query2, parameters={'return_embeddings': False})

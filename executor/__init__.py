@@ -116,8 +116,7 @@ class PostgreSQLReader(Executor):
         traversal_paths = parameters.get(
             'traversal_paths', self.default_traversal_paths
         )
-        with self.handler as postgres_handler:
-            postgres_handler.add(docs[traversal_paths])
+        self.handler.add(docs[traversal_paths])
 
     @property
     def initialized(self, **kwargs):
