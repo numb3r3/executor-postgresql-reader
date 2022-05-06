@@ -1,0 +1,5 @@
+manifest_version: 1
+name: PostgreSQLReader
+description: Look up jina documentation from PostgreSQL database
+url: https://github.com/numb3r3/executor-postgresql-reader
+keywords: [reader, postgresql, doc, lookup]
