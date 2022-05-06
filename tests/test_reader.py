@@ -71,7 +71,7 @@ def test_config():
 
 
 @pytest.mark.parametrize('docker_compose', [compose_yml], indirect=['docker_compose'])
-def test_postgres(tmpdir, docker_compose):
+def test_postgres(docker_compose):
     reader = PostgreSQLReader()
 
     emb = np.random.random(10).astype(np.float32)
@@ -89,3 +89,8 @@ def test_postgres(tmpdir, docker_compose):
     query2 = DocumentArray([Document(id=doc.id)])
     reader.search(query2, parameters={'return_embeddings': False})
     assert query2[0].embedding is None
+
+    query3 = DocumentArray([Document(id='000')])
+    reader.search(query3, parameters={'return_embeddings': False})
+    assert query3[0].content is None
+    assert query3[0].id == '000'

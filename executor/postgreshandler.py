@@ -332,6 +332,9 @@ class PostgreSQLHandler:
                 )
                 result = cursor.fetchone()
 
+                if not result:
+                    continue
+
                 scores = cp.deepcopy(doc.scores)
 
                 data = bytes(result[0])
