@@ -340,7 +340,7 @@ class PostgreSQLHandler:
                 data = bytes(result[0])
                 retrieved_doc = Document.from_bytes(data)
                 if return_embeddings and result[1] is not None:
-                    embedding = np.frombuffer(result[1], dtype=self.dump_dtype)
+                    embedding = np.frombuffer(result[1])
                     retrieved_doc.embedding = embedding
 
                 # update meta data
